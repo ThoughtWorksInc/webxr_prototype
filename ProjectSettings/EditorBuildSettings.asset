@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Spikes/SaveData/SaveScene.unity
+    path: Assets/Spikes/SaveData/SaveScene.unity
     guid: c6eae5ebedc1947b98ab1885f1c23ec3
   - enabled: 1
-    path: Assets/Scenes/Spikes/SaveData/LoadScene.unity
+    path: Assets/Spikes/SaveData/LoadScene.unity
     guid: dbeabf9285ef442b08a87004992fe577
   m_configObjects: {}
