@@ -1,0 +1,8 @@
+Model Information:
+* title:	petrol station full scenes
+* source:	https://sketchfab.com/3d-models/petrol-station-full-scenes-8e1b84c0c4444c959d40b2b83193ed8b
+* author:	dizartoren (https://sketchfab.com/dizartoren)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
