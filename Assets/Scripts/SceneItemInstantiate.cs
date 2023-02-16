@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneItemInstantiate : MonoBehaviour
 {
@@ -16,5 +17,13 @@ public class SceneItemInstantiate : MonoBehaviour
         SceneItems.ForEach(delegate (SceneItem item) {
             _ = Instantiate(item.SceneObject, item.SceneObject.transform.position, item.SceneObject.transform.rotation);
         });
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.M))
+        {
+            SceneManager.LoadScene("SpikeMenu");
+        }
     }
 }

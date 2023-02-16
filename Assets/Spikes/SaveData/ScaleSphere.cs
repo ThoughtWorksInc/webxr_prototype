@@ -8,7 +8,7 @@ public class ScaleSphere : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string json = System.IO.File.ReadAllText(Application.dataPath + "/Spikes/SaveData/MyData.json");
+        string json = System.IO.File.ReadAllText(Application.persistentDataPath + "/MyData.json");
         MyData data = JsonUtility.FromJson<MyData>(json);
         int myValue = data.myVariable;
 

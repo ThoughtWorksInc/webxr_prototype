@@ -12,7 +12,7 @@ public class SaveScene : MonoBehaviour
     {
         try
         {
-            string loadJson = System.IO.File.ReadAllText(Application.dataPath + "/Spikes/SaveData/MyData.json");
+            string loadJson = System.IO.File.ReadAllText(Application.persistentDataPath + "/MyData.json");
             MyData data = JsonUtility.FromJson<MyData>(loadJson);
             text.text = "Scale: " + data.myVariable;
         }
@@ -51,20 +51,20 @@ public class SaveScene : MonoBehaviour
         Debug.Log(Application.dataPath);
 
         string json = JsonUtility.ToJson(data);
-        System.IO.File.WriteAllText(Application.dataPath + "/Spikes/SaveData/MyData.json", json);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/MyData.json", json);
     }
 
     void Increase()
     {
         Debug.Log("Increase");
 
-        string loadJson = System.IO.File.ReadAllText(Application.dataPath + "/Spikes/SaveData/MyData.json");
+        string loadJson = System.IO.File.ReadAllText(Application.persistentDataPath + "/MyData.json");
         MyData data = JsonUtility.FromJson<MyData>(loadJson);
         data.myVariable += 5;
 
         text.text = "Scale: " + data.myVariable;
 
         string saveJson = JsonUtility.ToJson(data);
-        System.IO.File.WriteAllText(Application.dataPath + "/Spikes/SaveData/MyData.json", saveJson);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/MyData.json", saveJson);
     }
 }

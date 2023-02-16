@@ -13,8 +13,14 @@ public class SpikeChangeScene : MonoBehaviour
         SceneManager.LoadScene("GizmosScene");
     }
 
+    public void PetrolStationScene()
+    {
+        SceneManager.LoadScene("PetrolStationScene");
+    }
+
     public void SpikeMenuScene()
     {
         SceneManager.LoadScene("SpikeMenu");
     }
+
 }
