@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace RTG
 {
@@ -349,8 +350,8 @@ namespace RTG
                             StartCoroutine(_genricCamTransformCrtn = DoSmoothOrbit(mouseX, mouseY));
                         }
                     }
-                    else
-                    if (_lookAroundSettings.IsLookAroundEnabled && Hotkeys.LookAround.IsActive())
+                    else 
+                    if (_lookAroundSettings.IsLookAroundEnabled && Input.GetMouseButton(0))
                     {
                         if (_lookAroundSettings.LookAroundMode == CameraLookAroundMode.Standard)
                         {
@@ -492,7 +493,7 @@ namespace RTG
         }
 
         private Vector2 CalculatePanAmount(float deviceAxisX, float deviceAxisY)
-        {
+        {   
             Vector2 panAmount = Vector2.zero;
             panAmount.x = -deviceAxisX * _panSettings.Sensitivity;
             if (_panSettings.InvertX) panAmount.x *= -1.0f;         

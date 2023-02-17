@@ -30,6 +30,10 @@ namespace RTG
             _availableKeys.Add(KeyCode.Delete);
             _availableKeys.Add(KeyCode.LeftBracket);
             _availableKeys.Add(KeyCode.RightBracket);
+            _availableKeys.Add(KeyCode.UpArrow);
+            _availableKeys.Add(KeyCode.DownArrow);
+            _availableKeys.Add(KeyCode.LeftArrow);
+            _availableKeys.Add(KeyCode.RightArrow);
 
             for (int keyCode = (int)KeyCode.A; keyCode <= (int)KeyCode.Z; ++keyCode)
             {
