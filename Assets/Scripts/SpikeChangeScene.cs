@@ -23,4 +23,9 @@ public class SpikeChangeScene : MonoBehaviour
         SceneManager.LoadScene("SpikeMenu");
     }
 
+    public void Week1Scene()
+    {
+        SceneManager.LoadScene("TrainerScene");
+    }
+
 }
