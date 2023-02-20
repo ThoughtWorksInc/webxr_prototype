@@ -12,7 +12,7 @@ public class ManagerScript : MonoBehaviour
         overlayData.myOverlays = GameObject.FindGameObjectsWithTag("Overlays");
 
         string json = JsonUtility.ToJson(overlayData);
-        System.IO.File.WriteAllText(Application.dataPath + "/Spikes/week1/MyOverlaysData.json", json);
+        System.IO.File.WriteAllText(Application.dataPath + "/Scenes/main/MyOverlaysData.json", json);
 
         foreach (var overlay in overlayData.myOverlays)
         {

@@ -11,7 +11,7 @@ public class OptionsMenu : MonoBehaviour
         GameObject buttonTemplate = transform.GetChild(0).gameObject;
         GameObject g;
 
-        string path = Application.dataPath + "/Spikes/week1/Resources";
+        string path = Application.dataPath + "/Scenes/main/Resources";
         DirectoryInfo dir = new DirectoryInfo(path);
         FileInfo[] prefabInfo = dir.GetFiles("*.prefab");
 

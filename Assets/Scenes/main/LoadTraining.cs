@@ -11,7 +11,7 @@ public class LoadTraining : MonoBehaviour
 
     void Start()
     {   
-        string loadJson = System.IO.File.ReadAllText(Application.dataPath + "/Spikes/week1/MyOverlaysData.json");
+        string loadJson = System.IO.File.ReadAllText(Application.dataPath + "/Scenes/main/MyOverlaysData.json");
         OverlaysData myOverlaysData = JsonUtility.FromJson<OverlaysData>(loadJson);
         myOverlays = myOverlaysData.myOverlays;
         
