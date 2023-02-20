@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3688,7 +3688,7 @@ MonoBehaviour:
     _orthoZoomSmoothValue: 5
     _perspZoomSmoothValue: 5
     _invertZoomAxis: 0
-    _isZoomEnabled: 1
+    _isZoomEnabled: 0
   _focusSettings:
     _canBeDisplayed: 1
     _isExpanded: 1
@@ -3713,14 +3713,14 @@ MonoBehaviour:
     _isExpanded: 1
     _moveForward:
       _isEnabled: 1
-      _key: 119
+      _key: 273
       _lCtrl: 0
       _lCmd: 0
       _lAlt: 0
       _lShift: 0
       _useStrictModifierCheck: 0
       _lMouseBtn: 0
-      _rMouseBtn: 1
+      _rMouseBtn: 0
       _mMouseBtn: 0
       _useStrictMouseCheck: 0
       _name: Move forward
@@ -3728,14 +3728,14 @@ MonoBehaviour:
         CanHaveMouseButtons: 1
     _moveBack:
       _isEnabled: 1
-      _key: 115
+      _key: 274
       _lCtrl: 0
       _lCmd: 0
       _lAlt: 0
       _lShift: 0
       _useStrictModifierCheck: 0
       _lMouseBtn: 0
-      _rMouseBtn: 1
+      _rMouseBtn: 0
       _mMouseBtn: 0
       _useStrictMouseCheck: 0
       _name: Move back
@@ -3743,14 +3743,14 @@ MonoBehaviour:
         CanHaveMouseButtons: 1
     _strafeLeft:
       _isEnabled: 1
-      _key: 97
+      _key: 276
       _lCtrl: 0
       _lCmd: 0
       _lAlt: 0
       _lShift: 0
       _useStrictModifierCheck: 0
       _lMouseBtn: 0
-      _rMouseBtn: 1
+      _rMouseBtn: 0
       _mMouseBtn: 0
       _useStrictMouseCheck: 0
       _name: Strafe left
@@ -3758,14 +3758,14 @@ MonoBehaviour:
         CanHaveMouseButtons: 1
     _strafeRight:
       _isEnabled: 1
-      _key: 100
+      _key: 275
       _lCtrl: 0
       _lCmd: 0
       _lAlt: 0
       _lShift: 0
       _useStrictModifierCheck: 0
       _lMouseBtn: 0
-      _rMouseBtn: 1
+      _rMouseBtn: 0
       _mMouseBtn: 0
       _useStrictMouseCheck: 0
       _name: Strafe right
