@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Editable
   - Overlays
+  - Text_Overlay
+  - Image_Overlay
   layers:
   - Default
   - TransparentFX

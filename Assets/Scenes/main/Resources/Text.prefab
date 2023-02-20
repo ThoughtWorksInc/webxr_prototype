@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 7662880090677861615}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Overlays
+  m_TagString: Text_Overlay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

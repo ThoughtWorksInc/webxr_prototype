@@ -18,11 +18,11 @@ public class LoadTraining : MonoBehaviour
 
         foreach (var item in myOverlays)
         {
-            GameObject textPrefab = Resources.Load<GameObject>("Text");
+            GameObject textPrefab = Resources.Load<GameObject>(item.type);
 
             if (textPrefab == null)
             {
-                Debug.LogError("Failed to load text prefab!");
+                Debug.LogError("Failed to load text prefab.");
             }
             else
             {
