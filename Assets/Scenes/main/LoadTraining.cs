@@ -2,22 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class LoadTraining : MonoBehaviour
 {
     public List<SceneItem> SceneItems = new();
-    public GameObject[] myOverlays;
+    public List<OverlayGameObject> myOverlays;
 
     void Start()
     {   
         string loadJson = System.IO.File.ReadAllText(Application.dataPath + "/Scenes/main/MyOverlaysData.json");
         OverlaysData myOverlaysData = JsonUtility.FromJson<OverlaysData>(loadJson);
         myOverlays = myOverlaysData.myOverlays;
-        
+
         foreach (var item in myOverlays)
         {
-            SceneItems.Add(new SceneItem(item, item.transform));
+            GameObject textPrefab = Resources.Load<GameObject>("Text");
+
+            if (textPrefab == null)
+            {
+                Debug.LogError("Failed to load text prefab!");
+            }
+            else
+            {
+                GameObject newTextObject = Instantiate(textPrefab, item.position, item.rotation);
+                newTextObject.transform.localScale = item.scale;
+                SceneItems.Add(new SceneItem(newTextObject, newTextObject.transform));
+            }
         }
 
         SceneItems.ForEach(delegate (SceneItem item) {
@@ -32,3 +44,4 @@ public class LoadTraining : MonoBehaviour
         }
     }
 }
+
