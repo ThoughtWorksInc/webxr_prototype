@@ -31,6 +31,7 @@ public class ManagerScript : MonoBehaviour
         string json = JsonUtility.ToJson(overlayData);
         System.IO.File.WriteAllText(Application.dataPath + "/Scenes/main/MyOverlaysData.json", json);
 
+        
         SceneManager.LoadScene("TraineeScene");
     }
 }

@@ -10,6 +10,9 @@ using Amazon.S3.Util;
 using System.Collections.Generic;
 using Amazon.CognitoIdentity;
 using Amazon;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 public class AWSManager : MonoBehaviour
 {
@@ -59,20 +62,75 @@ public class AWSManager : MonoBehaviour
 
         AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
 
-        S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) => 
+        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) => 
+        // {
+        //     if(responseObject.Exception == null)
+        //     {
+        //         responseObject.Response.Buckets.ForEach((s3b) => 
+        //         {
+        //             Debug.Log("Bucket Name: " + s3b.BucketName);
+        //         });
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("AWS Error: " + responseObject.Exception);
+        //     }
+        // });
+    }
+
+    public void saveJsonFileToS3() 
+    {   
+        // for now we find the file from our local. Later we want to create file from scene data and store without this step
+        FileStream stream = new FileStream(Application.dataPath + "/Scenes/main/MyOverlaysData.json", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+
+        // create request to the right bucket, the key can be used to retrieve later, to name the object. Does not have to be
+        // same as file name we create, but its easier
+        PostObjectRequest request = new PostObjectRequest()
         {
-            if(responseObject.Exception == null)
+            Bucket = "webxr-poc-data",
+            Key = "MyOverlaysData.json",
+            InputStream = stream,
+            CannedACL = S3CannedACL.Private,
+            Region = _S3Region
+        };
+        
+        // create post request, this will print success if the S3 save was possible
+        S3Client.PostObjectAsync(request, (responeobj) =>
+        {
+            if (responeobj.Exception == null)
             {
-                responseObject.Response.Buckets.ForEach((s3b) => 
-                {
-                    Debug.Log("Bucket Name: " + s3b.BucketName);
-                });
+                Debug.Log("Successful upload");
             }
-            else
+            else 
             {
-                Debug.Log("AWS Error: " + responseObject.Exception);
+                Debug.Log("Upload exception:" + responeobj.Exception);
             }
         });
     }
 
+    public void getDataFromS3()
+    {   
+        // create a GET request for a list of objects. We try for now to retrieve everything from the bucket
+        var request = new ListObjectsRequest()
+        {
+            BucketName = "webxr-poc-data"
+        };
+
+        S3Client.ListObjectsAsync(request, (responseObj) => 
+        {
+            if(responseObj.Exception == null)
+            {   
+                // being here means GET request was successfull, no execptions thrown on AWS side
+                Debug.Log("Can retrive objects from S3");
+                responseObj.Response.S3Objects.ForEach((obj) => 
+                {   
+                    // here we have access to all our S3 objects. For now we just print the KEY
+                    Debug.Log("Found this object");
+                    Debug.Log(obj.Key);
+                });
+            }
+
+        });
+    }
 }
+
