@@ -10,7 +10,7 @@ public class ApiRequestScript : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GetRequest("https://oa7iwaj0se.execute-api.eu-west-1.amazonaws.com/get-data?name=Justine"));
+        StartCoroutine(GetRequest("https://tobuk8o9zg.execute-api.eu-west-1.amazonaws.com/prod"));
     }
 
     IEnumerator GetRequest(string uri)
