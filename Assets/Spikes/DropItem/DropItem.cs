@@ -21,11 +21,19 @@ public class DropItem : MonoBehaviour
     
     public void InstantiateResource()
     {
+        GameObject element;
         GameObject data = Resources.Load<GameObject>(text.text);
-        //sceneManager.GetComponent<ItemGizmos>().PlaceGizmos(data);
 
-        GameObject element = Instantiate(data, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
+        if(data.tag.Equals("Textbox"))
+        {
+            GameObject worldCanvas = GameObject.Find("WorldCanvas");
+            element = Instantiate(data, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation, worldCanvas.transform);
 
+        } else
+        {
+            element = Instantiate(data, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
+        }
+       
         ObjectTransformGizmo transformGizmo = RTGizmosEngine.Get.CreateObjectUniversalGizmo();
         transformGizmo.SetTargetObject(element);
     }
