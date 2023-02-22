@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class ManagerScript : MonoBehaviour
 {
-    public void SaveAndSwitchScene()
-    {
+    public void SwitchScene()
+    {   
+        SceneManager.LoadScene("TraineeScene");
+    }
+
+    public void SaveScene(){
         OverlaysData overlayData = new OverlaysData();
 
         foreach (var gameobj in GameObject.FindGameObjectsWithTag("Text_Overlay"))
@@ -28,10 +32,11 @@ public class ManagerScript : MonoBehaviour
             overlayGameObject.rotation = gameobj.transform.rotation;
             overlayData.myOverlays.Add(overlayGameObject);
         }
-        string json = JsonUtility.ToJson(overlayData);
-        System.IO.File.WriteAllText(Application.dataPath + "/Scenes/main/MyOverlaysData.json", json);
 
-        
-        SceneManager.LoadScene("TraineeScene");
+        string json = JsonUtility.ToJson(overlayData);
+
+        string training_id = AWSManager.Instance.saveJsonFileToS3(json);
+
+        Debug.Log("Training id: " + training_id);
     }
 }

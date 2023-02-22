@@ -6,6 +6,7 @@ using Amazon.S3.Model;
 using Amazon.Runtime;
 using System.IO;
 using System;
+using System.Text;
 using Amazon.S3.Util;
 using System.Collections.Generic;
 using Amazon.CognitoIdentity;
@@ -18,11 +19,13 @@ public class AWSManager : MonoBehaviour
 {
     #region Singleton
     private static AWSManager _instance;
-    public static AWSManager Instance 
+
+    private static int trainerId = 0;
+    public static AWSManager Instance
     {
         get
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 Debug.Log("AWSManager is NULL");
             }
@@ -40,12 +43,12 @@ public class AWSManager : MonoBehaviour
     private AmazonS3Client _s3Client;
     public AmazonS3Client S3Client
     {
-        get 
+        get
         {
-            if(_s3Client == null)
-            {   
+            if (_s3Client == null)
+            {
                 // Initialize the Amazon Cognito credentials provider
-                CognitoAWSCredentials credentials = new CognitoAWSCredentials (
+                CognitoAWSCredentials credentials = new CognitoAWSCredentials(
                     "eu-west-1:edb69395-5f02-4c2f-a7a4-e740b9ff4f7f", // Identity pool ID
                     RegionEndpoint.EUWest1 // Region
                 );
@@ -78,52 +81,55 @@ public class AWSManager : MonoBehaviour
         // });
     }
 
-    public void saveJsonFileToS3() 
-    {   
-        // for now we find the file from our local. Later we want to create file from scene data and store without this step
-        FileStream stream = new FileStream(Application.dataPath + "/Scenes/main/MyOverlaysData.json", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+    public string saveJsonFileToS3(String json)
+    {
+        trainerId++;
+        string target = "Training_" + trainerId + ".json";
 
-        // create request to the right bucket, the key can be used to retrieve later, to name the object. Does not have to be
-        // same as file name we create, but its easier
+        MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(json));
+
         PostObjectRequest request = new PostObjectRequest()
         {
             Bucket = "webxr-poc-data",
-            Key = "MyOverlaysData.json",
+            Key = target,
             InputStream = stream,
             CannedACL = S3CannedACL.Private,
             Region = _S3Region
         };
-        
-        // create post request, this will print success if the S3 save was possible
+
         S3Client.PostObjectAsync(request, (responeobj) =>
         {
             if (responeobj.Exception == null)
             {
                 Debug.Log("Successful upload");
             }
-            else 
+            else
             {
                 Debug.Log("Upload exception:" + responeobj.Exception);
+                trainerId--;
+                throw responeobj.Exception;
             }
         });
+
+        return target;
     }
 
     public void getDataFromS3()
-    {   
+    {
         // create a GET request for a list of objects. We try for now to retrieve everything from the bucket
         var request = new ListObjectsRequest()
         {
             BucketName = "webxr-poc-data"
         };
 
-        S3Client.ListObjectsAsync(request, (responseObj) => 
+        S3Client.ListObjectsAsync(request, (responseObj) =>
         {
-            if(responseObj.Exception == null)
-            {   
+            if (responseObj.Exception == null)
+            {
                 // being here means GET request was successfull, no execptions thrown on AWS side
                 Debug.Log("Can retrive objects from S3");
-                responseObj.Response.S3Objects.ForEach((obj) => 
-                {   
+                responseObj.Response.S3Objects.ForEach((obj) =>
+                {
                     // here we have access to all our S3 objects. For now we just print the KEY
                     Debug.Log("Found this object");
                     Debug.Log(obj.Key);
@@ -133,4 +139,3 @@ public class AWSManager : MonoBehaviour
         });
     }
 }
-
