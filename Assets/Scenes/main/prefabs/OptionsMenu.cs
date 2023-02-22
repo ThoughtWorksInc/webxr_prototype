@@ -11,15 +11,11 @@ public class OptionsMenu : MonoBehaviour
         GameObject buttonTemplate = transform.GetChild(0).gameObject;
         GameObject g;
 
-        string path = Application.dataPath + "/Scenes/main/Resources";
-        DirectoryInfo dir = new DirectoryInfo(path);
-        FileInfo[] prefabInfo = dir.GetFiles("*.prefab");
+        g = Instantiate(buttonTemplate, transform);
+        g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Text";
 
-        foreach(FileInfo prefab in prefabInfo)
-        {
-            g = Instantiate(buttonTemplate, transform);
-            g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = prefab.Name.Replace(".prefab", "");
-        }
+        g = Instantiate(buttonTemplate, transform);
+        g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Image";
 
         Destroy(buttonTemplate);
 
