@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class TrainingScript : MonoBehaviour
 {
     public TextMeshProUGUI inputText;
-    private object data = null;
+    private string data = null;
     public List<OverlayGameObject> myOverlays;
     public List<SceneItem> SceneItems = new();
 
@@ -54,47 +54,31 @@ public class TrainingScript : MonoBehaviour
         }
 
         webRequest.Dispose();
-        // RecreateScene();
+        RecreateScene();
     }
 
-    // void RecreateScene()
-    // {   
-    //     Debug.Log("DATA:" + data);
-    //     Debug.Log("Type: " + data.GetType());
-        
-    //     object loadJson = JsonUtility.ToJson(data.ToString());
-    //     Debug.Log("JSON:" + loadJson);
-    //     foreach (var item in data["myOverlays"])
-    //     {   
-    //         Debug.Log(item);
-    //     }
-        
+    void RecreateScene()
+    {
+        OverlaysData myOverlaysData = JsonUtility.FromJson<OverlaysData>(data);
 
-    //     // Debug.Log("JSON: " + loadJson);
-    //     // OverlaysData myOverlaysData = JsonUtility.FromJson<OverlaysData>(data);
-    //     // myOverlays = myOverlaysData.myOverlays;
-    //     // Debug.Log(myOverlays);
+        Debug.Log("Recreating Scene...");
+        foreach (var item in myOverlaysData.myOverlays)
+        {
+            Debug.Log(item.type);
+            GameObject textPrefab = Resources.Load<GameObject>(item.type);
 
-    //     // Debug.Log("Recreating Scene...");
-    //     // foreach (var item in myOverlays)
-    //     // {   
-    //     //     Debug.Log(item.type);
-    //     //     GameObject textPrefab = Resources.Load<GameObject>(item.type);
+            if (textPrefab == null)
+            {
+                Debug.LogError("Failed to load text prefab.");
+            }
+            else
+            {
+                GameObject newTextObject = Instantiate(textPrefab, item.position, item.rotation);
+                newTextObject.transform.localScale = item.scale;
+                SceneItems.Add(new SceneItem(newTextObject, newTextObject.transform));
+            }
+        }
 
-    //     //     if (textPrefab == null)
-    //     //     {
-    //     //         Debug.LogError("Failed to load text prefab.");
-    //     //     }
-    //     //     else
-    //     //     {
-    //     //         GameObject newTextObject = Instantiate(textPrefab, item.position, item.rotation);
-    //     //         newTextObject.transform.localScale = item.scale;
-    //     //         SceneItems.Add(new SceneItem(newTextObject, newTextObject.transform));
-    //     //     }
-    //     // }
-
-    //     // SceneItems.ForEach(delegate (SceneItem item) {
-    //     //     _ = Instantiate(item.SceneObject, item.SceneObject.transform.position, item.SceneObject.transform.rotation);
-    //     // });
-    // }
+        Destroy(GameObject.Find("Menu"));
+    }
 }

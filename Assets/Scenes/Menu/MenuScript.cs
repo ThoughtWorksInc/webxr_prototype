@@ -10,7 +10,7 @@ public class MenuScript : MonoBehaviour
     private string[] scenes = new string[]
     {
         "TrainerScene",
-        "TraineeScene",
+        "TrainingScene",
         "SpikeMenu"
     };
 
