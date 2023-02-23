@@ -17,4 +17,9 @@ public class SpikeChangeScene : MonoBehaviour
     {
         SceneManager.LoadScene("ApiScene");
     }
+
+    public void AWSTestScene()
+    {
+        SceneManager.LoadScene("AWSLoadTest");
+    }
 }
