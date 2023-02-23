@@ -14,7 +14,6 @@ using Amazon;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-
 public class AWSManager : MonoBehaviour
 {
     #region Singleton
@@ -58,18 +57,18 @@ public class AWSManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    void Start()
     {
         _instance = this;
         UnityInitializer.AttachToGameObject(this.gameObject);
+        Debug.Log("Start called");
+        StartCoroutine(AWSClientConfig());
 
-        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-
-        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) => 
+        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) =>
         // {
         //     if(responseObject.Exception == null)
         //     {
-        //         responseObject.Response.Buckets.ForEach((s3b) => 
+        //         responseObject.Response.Buckets.ForEach((s3b) =>
         //         {
         //             Debug.Log("Bucket Name: " + s3b.BucketName);
         //         });
@@ -79,6 +78,13 @@ public class AWSManager : MonoBehaviour
         //         Debug.Log("AWS Error: " + responseObject.Exception);
         //     }
         // });
+    }
+
+    IEnumerator AWSClientConfig()
+    {
+        Debug.Log("AWS CLIENT CONFIG");
+        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
+        yield return AWSConfigs.HttpClient;
     }
 
     public string saveJsonFileToS3(String json)
@@ -97,19 +103,22 @@ public class AWSManager : MonoBehaviour
             Region = _S3Region
         };
 
-        S3Client.PostObjectAsync(request, (responeobj) =>
-        {
-            if (responeobj.Exception == null)
+        S3Client.PostObjectAsync(
+            request,
+            (responeobj) =>
             {
-                Debug.Log("Successful upload");
+                if (responeobj.Exception == null)
+                {
+                    Debug.Log("Successful upload");
+                }
+                else
+                {
+                    Debug.Log("Upload exception:" + responeobj.Exception);
+                    trainerId--;
+                    throw responeobj.Exception;
+                }
             }
-            else
-            {
-                Debug.Log("Upload exception:" + responeobj.Exception);
-                trainerId--;
-                throw responeobj.Exception;
-            }
-        });
+        );
 
         return target;
     }
@@ -117,25 +126,26 @@ public class AWSManager : MonoBehaviour
     public void getDataFromS3()
     {
         // create a GET request for a list of objects. We try for now to retrieve everything from the bucket
-        var request = new ListObjectsRequest()
-        {
-            BucketName = "webxr-poc-data"
-        };
+        var request = new ListObjectsRequest() { BucketName = "webxr-poc-data" };
 
-        S3Client.ListObjectsAsync(request, (responseObj) =>
-        {
-            if (responseObj.Exception == null)
+        S3Client.ListObjectsAsync(
+            request,
+            (responseObj) =>
             {
-                // being here means GET request was successfull, no execptions thrown on AWS side
-                Debug.Log("Can retrive objects from S3");
-                responseObj.Response.S3Objects.ForEach((obj) =>
+                if (responseObj.Exception == null)
                 {
-                    // here we have access to all our S3 objects. For now we just print the KEY
-                    Debug.Log("Found this object");
-                    Debug.Log(obj.Key);
-                });
+                    // being here means GET request was successfull, no execptions thrown on AWS side
+                    Debug.Log("Can retrive objects from S3");
+                    responseObj.Response.S3Objects.ForEach(
+                        (obj) =>
+                        {
+                            // here we have access to all our S3 objects. For now we just print the KEY
+                            Debug.Log("Found this object");
+                            Debug.Log(obj.Key);
+                        }
+                    );
+                }
             }
-
-        });
+        );
     }
 }
