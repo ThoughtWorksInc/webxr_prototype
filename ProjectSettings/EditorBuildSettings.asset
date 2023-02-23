@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Spikes/ApiRequest/APIScene.unity
     guid: bd1ec9225e60f412f8488f0d6a87c2df
+  - enabled: 1
+    path: Assets/Spikes/AWS/AWSLoadTest.unity
+    guid: e96f40cecd2c546799678753302864ee
   m_configObjects: {}
