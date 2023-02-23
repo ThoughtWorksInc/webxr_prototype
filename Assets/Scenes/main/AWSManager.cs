@@ -19,7 +19,7 @@ public class AWSManager : MonoBehaviour
     #region Singleton
     private static AWSManager _instance;
 
-    private static int trainerId = 0;
+    private static string uniqueId;
     public static AWSManager Instance
     {
         get
@@ -64,7 +64,9 @@ public class AWSManager : MonoBehaviour
         Debug.Log("Start called");
         StartCoroutine(AWSClientConfig());
 
-        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) =>
+        uniqueId = (new System.Random().Next(1000000, 9999999)).ToString();
+
+        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) => 
         // {
         //     if(responseObject.Exception == null)
         //     {
@@ -89,8 +91,7 @@ public class AWSManager : MonoBehaviour
 
     public string saveJsonFileToS3(String json)
     {
-        trainerId++;
-        string target = "Training_" + trainerId + ".json";
+        string target = "_" + uniqueId + ".json";
 
         MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(json));
 
@@ -109,18 +110,17 @@ public class AWSManager : MonoBehaviour
             {
                 if (responeobj.Exception == null)
                 {
-                    Debug.Log("Successful upload");
-                }
-                else
-                {
-                    Debug.Log("Upload exception:" + responeobj.Exception);
-                    trainerId--;
-                    throw responeobj.Exception;
-                }
+                Debug.Log("Successful upload");
+            }
+            else
+            {
+                Debug.Log("Upload exception:" + responeobj.Exception);
+                throw responeobj.Exception;
+            }
             }
         );
 
-        return target;
+        return uniqueId;
     }
 
     public void getDataFromS3()
