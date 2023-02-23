@@ -65,21 +65,6 @@ public class AWSManager : MonoBehaviour
         StartCoroutine(AWSClientConfig());
 
         uniqueId = (new System.Random().Next(1000000, 9999999)).ToString();
-
-        // S3Client.ListBucketsAsync(new ListBucketsRequest(), (responseObject) => 
-        // {
-        //     if(responseObject.Exception == null)
-        //     {
-        //         responseObject.Response.Buckets.ForEach((s3b) =>
-        //         {
-        //             Debug.Log("Bucket Name: " + s3b.BucketName);
-        //         });
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("AWS Error: " + responseObject.Exception);
-        //     }
-        // });
     }
 
     IEnumerator AWSClientConfig()
