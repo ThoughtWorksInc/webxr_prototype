@@ -6,12 +6,19 @@ using UnityEngine.UI;
 
 public class ManagerScript : MonoBehaviour
 {
+    Camera mainCamera;
+
+    void Start()
+    {
+        mainCamera = Camera.main;
+    }
     public void SwitchScene()
     {   
         SceneManager.LoadScene("TraineeScene");
     }
 
     public void SaveScene(){
+        Debug.Log("Save scene");
         OverlaysData overlayData = new OverlaysData();
 
         foreach (var gameobj in GameObject.FindGameObjectsWithTag("Text_Overlay"))
@@ -36,6 +43,9 @@ public class ManagerScript : MonoBehaviour
         string json = JsonUtility.ToJson(overlayData);
 
         string training_id = AWSManager.Instance.saveJsonFileToS3(json);
+
+        GameObject popup = Resources.Load<GameObject>("Popup");
+        GameObject popupElement = Instantiate(popup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
 
         Debug.Log("Training id: " + training_id);
     }

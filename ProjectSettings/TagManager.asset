@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ClosePopup
+  - Text_Overlay
   layers:
   - Default
   - TransparentFX
