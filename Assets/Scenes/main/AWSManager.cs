@@ -1,18 +1,10 @@
-using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.Runtime;
-using System.IO;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Text;
-using Amazon.S3.Util;
-using System.Collections.Generic;
-using Amazon.CognitoIdentity;
-using Amazon;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 
 public class AWSManager : MonoBehaviour
 {
@@ -32,105 +24,43 @@ public class AWSManager : MonoBehaviour
         }
     }
     #endregion
-
-    public string S3Region = RegionEndpoint.EUWest2.SystemName;
-    private RegionEndpoint _S3Region
-    {
-        get { return RegionEndpoint.GetBySystemName(S3Region); }
-    }
-
-    private AmazonS3Client _s3Client;
-    public AmazonS3Client S3Client
-    {
-        get
-        {
-            if (_s3Client == null)
-            {
-                // Initialize the Amazon Cognito credentials provider
-                CognitoAWSCredentials credentials = new CognitoAWSCredentials(
-                    "eu-west-1:edb69395-5f02-4c2f-a7a4-e740b9ff4f7f", // Identity pool ID
-                    RegionEndpoint.EUWest1 // Region
-                );
-                _s3Client = new AmazonS3Client(credentials, _S3Region);
-            }
-            return _s3Client;
-        }
-    }
-
-    void Start()
-    {
-        _instance = this;
-        UnityInitializer.AttachToGameObject(this.gameObject);
-        Debug.Log("Start called");
-        StartCoroutine(AWSClientConfig());
-
+    void Start(){
+        _instance=this;
         uniqueId = (new System.Random().Next(1000000, 9999999)).ToString();
     }
-
-    IEnumerator AWSClientConfig()
+    public string PostRequest(string json)
     {
-        Debug.Log("AWS CLIENT CONFIG");
-        AWSConfigs.HttpClient = AWSConfigs.HttpClientOption.UnityWebRequest;
-        yield return AWSConfigs.HttpClient;
-    }
+        string contentType = "application/json";
+        string target="_"+uniqueId+".json";
+        // Set the URL for the request
+        string url = $"https://webxr-poc-data.s3.eu-west-1.amazonaws.com/"+target;
 
-    public string saveJsonFileToS3(String json)
-    {
-        string target = "_" + uniqueId + ".json";
+        // Read the contents of the JSON file
+        string jsonContent = json;
+        byte[] jsonBytes = System.Text.Encoding.UTF8.GetBytes(jsonContent);
 
-        MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(json));
+        UnityWebRequest request = UnityWebRequest.Put(url, jsonBytes);
+        request.SetRequestHeader("Content-Type", contentType);
+        request.SetRequestHeader("Access-Control-Allow-Origin", "*");
 
-        PostObjectRequest request = new PostObjectRequest()
-        {
-            Bucket = "webxr-poc-data",
-            Key = target,
-            InputStream = stream,
-            CannedACL = S3CannedACL.Private,
-            Region = _S3Region
-        };
-
-        S3Client.PostObjectAsync(
-            request,
-            (responeobj) =>
-            {
-                if (responeobj.Exception == null)
-                {
-                Debug.Log("Successful upload");
-            }
-            else
-            {
-                Debug.Log("Upload exception:" + responeobj.Exception);
-                throw responeobj.Exception;
-            }
-            }
-        );
-
+        // Send the request and handle the response
+        StartCoroutine(SendRequest(request));
         return uniqueId;
     }
 
-    public void getDataFromS3()
+    static IEnumerator SendRequest(UnityWebRequest request)
     {
-        // create a GET request for a list of objects. We try for now to retrieve everything from the bucket
-        var request = new ListObjectsRequest() { BucketName = "webxr-poc-data" };
+        yield return request.SendWebRequest();
 
-        S3Client.ListObjectsAsync(
-            request,
-            (responseObj) =>
-            {
-                if (responseObj.Exception == null)
-                {
-                    // being here means GET request was successfull, no execptions thrown on AWS side
-                    Debug.Log("Can retrive objects from S3");
-                    responseObj.Response.S3Objects.ForEach(
-                        (obj) =>
-                        {
-                            // here we have access to all our S3 objects. For now we just print the KEY
-                            Debug.Log("Found this object");
-                            Debug.Log(obj.Key);
-                        }
-                    );
-                }
-            }
-        );
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Error uploading JSON file: " + request.error);
+        }
+        else
+        {
+            Debug.Log("JSON file uploaded successfully!");
+        }
     }
+
 }
+

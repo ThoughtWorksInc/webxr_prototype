@@ -55,7 +55,7 @@ public class ManagerScript : MonoBehaviour
 
         string json = JsonUtility.ToJson(overlayData);
 
-        string training_id = AWSManager.Instance.saveJsonFileToS3(json);
+        string training_id = AWSManager.Instance.PostRequest(json);
 
         GameObject popup = Resources.Load<GameObject>("Popup");
         GameObject popupElement = Instantiate(popup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
