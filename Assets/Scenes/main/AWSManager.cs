@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
-using System.Text;
-using System.Security.Cryptography;
 
 public class AWSManager : MonoBehaviour
 {
@@ -31,7 +27,7 @@ public class AWSManager : MonoBehaviour
     public string PostRequest(string json)
     {
         string contentType = "application/json";
-        string target="_"+uniqueId+".json";
+        string target= uniqueId+".json";
         // Set the URL for the request
         string url = $"https://webxr-poc-data.s3.eu-west-1.amazonaws.com/"+target;
 

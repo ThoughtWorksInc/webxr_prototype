@@ -10,8 +10,8 @@ public class MenuScript : MonoBehaviour
     private string[] scenes = new string[]
     {
         "TrainerScene",
-        "TrainingScene",
-        "SpikeMenu"
+        "TrainingScene"
+        //"SpikeMenu"
     };
 
     // Start is called before the first frame update
