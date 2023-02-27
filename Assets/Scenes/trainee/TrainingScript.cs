@@ -74,6 +74,7 @@ public class TrainingScript : MonoBehaviour
             else
             {
                 GameObject newTextObject = Instantiate(textPrefab, item.position, item.rotation);
+                newTextObject.GetComponent<IOverlay>().Setup(item);
                 newTextObject.transform.localScale = item.scale;
                 SceneItems.Add(new SceneItem(newTextObject, newTextObject.transform));
             }
