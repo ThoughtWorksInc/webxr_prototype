@@ -8,7 +8,7 @@ public class ClosePopup : MonoBehaviour
     public void destroyPopup()
     {
         GameObject popupPrefab = GameObject.FindGameObjectWithTag("PopupPrefab");
-        popupPrefab.SetActive(false);
+        Destroy(popupPrefab);
     }
 
 }
