@@ -33,6 +33,7 @@ public class ManagerScript : MonoBehaviour
             {  
                 OverlayGameObject overlayGameObject = new OverlayGameObject();
                 overlayGameObject.type = "Text";
+                overlayGameObject.userInput = gameobj.GetComponentInChildren<TextMeshProUGUI>().text;
                 overlayGameObject.position = gameobj.transform.position;
                 overlayGameObject.scale = gameobj.transform.localScale;
                 overlayGameObject.rotation = gameobj.transform.rotation;
@@ -49,6 +50,8 @@ public class ManagerScript : MonoBehaviour
             {   
                 OverlayGameObject overlayGameObject = new OverlayGameObject();
                 overlayGameObject.type = "Image";
+                // change this to whatever you need for accessing image
+                overlayGameObject.userInput = "";
                 overlayGameObject.position = gameobj.transform.position;
                 overlayGameObject.scale = gameobj.transform.localScale;
                 overlayGameObject.rotation = gameobj.transform.rotation;
