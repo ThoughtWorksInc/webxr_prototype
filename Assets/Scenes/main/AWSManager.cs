@@ -22,7 +22,7 @@ public class AWSManager : MonoBehaviour
     #endregion
     void Start(){
         _instance=this;
-        uniqueId = (new System.Random().Next(1000000, 9999999)).ToString();
+        uniqueId = (new System.Random().Next(1000, 9999)).ToString();
     }
     public string PostRequest(string json)
     {
