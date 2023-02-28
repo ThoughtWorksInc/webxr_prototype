@@ -6,6 +6,7 @@ using TMPro;
 public class ObjectList : MonoBehaviour
 {
     public GameObject buttonTemplate;
+    public GameObject content;
     public List<GameObject> myObjects;
     
     void Start()
@@ -16,20 +17,11 @@ public class ObjectList : MonoBehaviour
     public void AddObject(GameObject obj)
     {
         myObjects.Add(obj);
-        buttonTemplate = transform.GetChild(0).gameObject;
+
         GameObject g;
-        g = Instantiate(buttonTemplate, transform);
+        g = Instantiate(buttonTemplate, content.transform);
         g.gameObject.SetActive(true);
         g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = obj.name;
-        
-        if (obj.name.StartsWith("Text"))
-        {
-            g.GetComponent<ObjectButton>().overlayReferenceType = "textobj";
-        }
-        else
-        {
-            g.GetComponent<ObjectButton>().overlayReferenceType = "imageobj";
-        }
         g.GetComponent<ObjectButton>().overlayReference = obj;
     }
 

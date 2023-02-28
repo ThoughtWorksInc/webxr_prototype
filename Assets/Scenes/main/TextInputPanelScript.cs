@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class InputScript : MonoBehaviour
+public class TextInputPanelScript : MonoBehaviour, IInputPanel
 {   
     GameObject overlay;
     public TextMeshProUGUI title;
     public TMP_InputField inputText;
 
-    public void showInputPanel(GameObject referenceObj)
+    public void ShowInputPanel(GameObject referenceObj)
     {
         if(referenceObj.tag.Equals("Text_Overlay")) { 
             this.gameObject.SetActive(true);
             overlay = referenceObj;
-            title.text = "Edit Text for element: " + overlay.name;
+            title.text = "Edit Text for: " + overlay.name;
             inputText.text = overlay.GetComponentInChildren<TextMeshProUGUI>().text;
         }
     }
@@ -24,6 +24,11 @@ public class InputScript : MonoBehaviour
         overlay.GetComponentInChildren<TextMeshProUGUI>().text = inputText.text;
         overlay = null;
         inputText.text = "";
+        this.gameObject.SetActive(false);
+    }
+
+    public void ClosePanel()
+    {
         this.gameObject.SetActive(false);
     }
 }

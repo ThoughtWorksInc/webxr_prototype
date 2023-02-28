@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraLimites : MonoBehaviour
+public class CameraLimits : MonoBehaviour
 {
     void Update()
     {

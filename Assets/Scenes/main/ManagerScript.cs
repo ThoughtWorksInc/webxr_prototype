@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ManagerScript : MonoBehaviour
 {
     Camera mainCamera;
+    public GameObject popUpPanel;
 
     void Start()
     {
@@ -22,8 +23,6 @@ public class ManagerScript : MonoBehaviour
         Debug.Log("Save scene");
         OverlaysData overlayData = new OverlaysData();
         
-        // Debug.Log("Textover"+GameObject.FindGameObjectsWithTag("Text_Overlay"));
-        // Debug.Log("Textover"+GameObject.FindGameObjectsWithTag("Image_Overlay"));
         string textPrefab = "Text";
         GameObject textGameObject = Resources.Load(textPrefab) as GameObject;
 
@@ -67,14 +66,10 @@ public class ManagerScript : MonoBehaviour
         }
 
         string json = JsonUtility.ToJson(overlayData);
-
         string training_id = AWSManager.Instance.PostRequest(json);
 
-        GameObject popup = Resources.Load<GameObject>("Popup");
-        GameObject popupElement = Instantiate(popup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
-        Debug.Log(popupElement.name);
-        Debug.Log(popupElement.transform.GetComponentInChildren<TextMeshProUGUI>().text);
-        popupElement.transform.GetComponentInChildren<TextMeshProUGUI>().text = training_id;
+        GameObject popupElement = Instantiate(popUpPanel, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
+        popupElement.GetComponent<PopUpScript>().SetTrainingId(training_id);
         
         Debug.Log("Training id: " + training_id);
     }

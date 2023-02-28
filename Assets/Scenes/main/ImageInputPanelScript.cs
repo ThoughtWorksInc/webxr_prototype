@@ -1,36 +1,34 @@
-using System.Collections;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
 
-public class ImageScript : MonoBehaviour
+public class ImageInputPanelScript : MonoBehaviour, IInputPanel
 {
     GameObject overlay;
-    private string imagePath = "";
 
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI pathText;
+    public Button saveButton;
+
+    private string imagePath = "";
     private Image image; 
 
-    public void showInputPanel(GameObject referenceObj)
+    public void ShowInputPanel(GameObject referenceObj)
     {
         this.gameObject.SetActive(true);
-
         overlay = referenceObj;
+        title.text = "Edit Image for: " + overlay.name;
 
-        Debug.Log("Sprite path: "+ AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite));
-
-        imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
-        
+        imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);    
     }
 
     public void OpenFileExplorer()
     {
         imagePath = UnityEditor.EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
-        Debug.Log(imagePath); 
-
-        transform.GetComponentInChildren<TextMeshProUGUI>().text = imagePath;
+        pathText.text = imagePath;
+        saveButton.interactable = true;
     }
 
     public void SaveImageInput()
@@ -48,10 +46,12 @@ public class ImageScript : MonoBehaviour
         }
 
         imagePath = "";
-        Debug.Log("Image saved", overlay.GetComponentInChildren<Image>());
         overlay = null;
+
+        saveButton.interactable = false;
         this.gameObject.SetActive(false);
     }
+
     private Texture2D LoadTexture(string path)
     {
         Texture2D texture = null;
@@ -64,5 +64,10 @@ public class ImageScript : MonoBehaviour
         }
 
         return texture;
+    }
+
+    public void ClosePanel()
+    {
+        this.gameObject.SetActive(false);
     }
 }
