@@ -4,9 +4,10 @@ using UnityEngine;
 using TMPro;
 
 public class ObjectList : MonoBehaviour
-{   
+{
+    public GameObject buttonTemplate;
     public List<GameObject> myObjects;
-    // Start is called before the first frame update
+    
     void Start()
     {
         myObjects = new List<GameObject>();
@@ -15,9 +16,10 @@ public class ObjectList : MonoBehaviour
     public void AddObject(GameObject obj)
     {
         myObjects.Add(obj);
-        GameObject buttonTemplate = transform.GetChild(0).gameObject;
+        buttonTemplate = transform.GetChild(0).gameObject;
         GameObject g;
         g = Instantiate(buttonTemplate, transform);
+        g.gameObject.SetActive(true);
         g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = obj.name;
         g.GetComponent<ObjectButton>().overlayReference = obj;
     }
