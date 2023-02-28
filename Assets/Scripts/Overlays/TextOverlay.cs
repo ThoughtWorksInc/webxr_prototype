@@ -9,7 +9,6 @@ public class TextOverlay : MonoBehaviour, IOverlay
 
     public void Setup(OverlayGameObject data)
     {
-        Debug.Log(this.gameObject.name);
         text.text = data.userInput;
     }
 }

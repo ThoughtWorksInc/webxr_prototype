@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -69,7 +67,7 @@ public class ManagerScript : MonoBehaviour
         string training_id = AWSManager.Instance.PostRequest(json);
 
         GameObject popupElement = Instantiate(popUpPanel, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
-        popupElement.GetComponent<PopUpScript>().SetTrainingId(training_id);
+        popupElement.GetComponent<PopUp>().SetTrainingId(training_id);
         
         Debug.Log("Training id: " + training_id);
     }

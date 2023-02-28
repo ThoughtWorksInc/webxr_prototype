@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class PopUpScript : MonoBehaviour
+public class PopUp : MonoBehaviour
 {
     public TextMeshProUGUI text;
 

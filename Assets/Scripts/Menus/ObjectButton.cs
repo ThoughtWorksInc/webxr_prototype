@@ -4,7 +4,6 @@ public class ObjectButton : MonoBehaviour
 {   
     public GameObject overlayReference;
     
-    // Start is called before the first frame update
     public void ButtonClick()
     {   
         if (overlayReference.CompareTag("Text_Overlay"))
