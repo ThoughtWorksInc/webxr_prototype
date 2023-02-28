@@ -7,7 +7,7 @@ public class AWSManager : MonoBehaviour
     #region Singleton
     private static AWSManager _instance;
 
-    private static string uniqueId;
+    public string uniqueId;
     public static AWSManager Instance
     {
         get
@@ -55,6 +55,44 @@ public class AWSManager : MonoBehaviour
         else
         {
             Debug.Log("JSON file uploaded successfully!");
+        }
+    }
+
+    public string UploadImage(Texture2D image, string filename)
+    {
+        // string contentType = "bytes";
+        Debug.Log("filename"+filename);
+        string target = filename+".png";
+
+        // Set the URL for the request
+        string url = $"https://webxr-poc-data.s3.eu-west-1.amazonaws.com/" + target;
+
+        // Read the contents of the JSON file
+        // string jsonContent = json;
+
+        // byte[] imageBytes = System.Text.Encoding.UTF8.GetBytes(image);
+
+        UnityWebRequest request = UnityWebRequest.Put(url, image.GetRawTextureData());
+
+        request.SetRequestHeader("Access-Control-Allow-Origin", "*");
+
+        // Send the request and handle the response
+        StartCoroutine(SendImageUploadRequest(request));
+
+        return target;
+    }
+
+    static IEnumerator SendImageUploadRequest(UnityWebRequest request)
+    {
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Error uploading image file: " + request.error);
+        }
+        else
+        {
+            Debug.Log("Image file uploaded successfully!");
         }
     }
 

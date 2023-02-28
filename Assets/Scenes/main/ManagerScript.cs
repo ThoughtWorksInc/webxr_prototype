@@ -47,11 +47,17 @@ public class ManagerScript : MonoBehaviour
         if(imageGameObject!=null)
         {
             foreach (var gameobj in GameObject.FindGameObjectsWithTag("Image_Overlay"))
-            {   
+            {
+                Texture2D texture = gameobj.GetComponentInChildren<Image>().sprite.texture;
+
+                string trainingId = AWSManager.Instance.uniqueId;
+
+                string filename = AWSManager.Instance.UploadImage(texture, gameobj.name+"_texture_"+trainingId);
+
                 OverlayGameObject overlayGameObject = new OverlayGameObject();
                 overlayGameObject.type = "Image";
                 // change this to whatever you need for accessing image
-                overlayGameObject.userInput = "";
+                overlayGameObject.userInput = filename;
                 overlayGameObject.position = gameobj.transform.position;
                 overlayGameObject.scale = gameobj.transform.localScale;
                 overlayGameObject.rotation = gameobj.transform.rotation;
