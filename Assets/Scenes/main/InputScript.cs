@@ -11,10 +11,12 @@ public class InputScript : MonoBehaviour
 
     public void showInputPanel(GameObject referenceObj)
     {
-        this.gameObject.SetActive(true);
-        overlay = referenceObj;
-        title.text = "Edit Text for element: " + overlay.name;
-        inputText.text = overlay.GetComponentInChildren<TextMeshProUGUI>().text;
+        if(referenceObj.tag.Equals("Text_Overlay")) { 
+            this.gameObject.SetActive(true);
+            overlay = referenceObj;
+            title.text = "Edit Text for element: " + overlay.name;
+            inputText.text = overlay.GetComponentInChildren<TextMeshProUGUI>().text;
+        }
     }
 
     public void SaveTextInput()
