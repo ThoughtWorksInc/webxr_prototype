@@ -6,13 +6,20 @@ using TMPro;
 public class ObjectButton : MonoBehaviour
 {   
     public GameObject overlayReference;
+    public string overlayReferenceType;
     
     // Start is called before the first frame update
     public void ButtonClick()
     {   
-        // later check if overlayReference.type to decide which input panel to show
-
-        GameObject InputPanel = GameObject.Find("InvisiblePanel").transform.GetChild(0).gameObject;
-        InputPanel.GetComponent<InputScript>().showInputPanel(overlayReference);
+        if (overlayReferenceType.Equals("textobj"))
+        {
+            GameObject InputPanel = GameObject.Find("InvisiblePanel").transform.GetChild(0).gameObject;
+            InputPanel.GetComponent<InputScript>().showInputPanel(overlayReference);
+        }
+        else
+        {
+            GameObject InputPanel = GameObject.Find("ImageInvisiblePanel").transform.GetChild(0).gameObject;
+            InputPanel.GetComponent<ImageScript>().showInputPanel(overlayReference);
+        }
     }
 }

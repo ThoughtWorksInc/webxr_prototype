@@ -21,6 +21,15 @@ public class ObjectList : MonoBehaviour
         g = Instantiate(buttonTemplate, transform);
         g.gameObject.SetActive(true);
         g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = obj.name;
+        
+        if (obj.name.StartsWith("Text"))
+        {
+            g.GetComponent<ObjectButton>().overlayReferenceType = "textobj";
+        }
+        else
+        {
+            g.GetComponent<ObjectButton>().overlayReferenceType = "imageobj";
+        }
         g.GetComponent<ObjectButton>().overlayReference = obj;
     }
 
