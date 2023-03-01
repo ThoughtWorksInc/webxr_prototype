@@ -27,33 +27,34 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
         overlay = referenceObj;
         title.text = "Edit Image for: " + overlay.name;
 
-#if UNITY_EDITOR
-        imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
-#endif
+        #if UNITY_EDITOR
+            imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
+        #endif
     }
 
     public void OpenFileExplorer()
     {
-#if UNITY_EDITOR
-        imagePath = EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
-#else
-       FileUploaderHelper.RequestFile((path) => 
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                return;
+        #if UNITY_EDITOR
+            imagePath = EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
+        #else
+            FileUploaderHelper.RequestFile((path) => 
+            {
+                if (string.IsNullOrWhiteSpace(path))
+                    return;
 
-            imagePath = path;
-            pathText.text = imagePath;
-            saveButton.interactable = true;
-        });
-#endif
+                StartCoroutine(UploadImage(path));  
+                imagePath = path;
+                pathText.text = imagePath;
+                saveButton.interactable = true;
+            });
+        #endif
 
         pathText.text = imagePath;
     }
 
     public void SaveImageInput()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         if (imagePath.Length != 0)
         {
             // Load the image from file
@@ -65,9 +66,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
             overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             Debug.Log(overlay.GetComponentInChildren<Image>().sprite);
         }
-#else
-        StartCoroutine(UploadImage(imagePath));  
-#endif
+        #endif
 
         imagePath = "";
         overlay = null;
@@ -81,39 +80,28 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
     {
         // This is where the texture will be stored.
         Texture2D texture;
-
+        // path = path.Substring(path.IndexOf(":") + 1);
+        Debug.Log("Path: " + path);
         // using to automatically call Dispose, create a request along the path to the file
         using (UnityWebRequest imageWeb = new UnityWebRequest(path, UnityWebRequest.kHttpVerbGET))
         {
             // We create a "downloader" for textures and pass it to the request
             imageWeb.downloadHandler = new DownloadHandlerTexture();
-
+            Debug.Log("waiting for imageWeb.SendWebRequest()");
             // We send a request, execution will continue after the entire file have been downloaded
             yield return imageWeb.SendWebRequest();
 
             // Getting the texture from the "downloader"
             texture = ((DownloadHandlerTexture)imageWeb.downloadHandler).texture;
+            Debug.Log("Got texture back from browser");
         }
+        Debug.Log("Going to apply texture to overlay now");
 
         // Create a sprite from a texture and pass it to the avatar image on the UI
         overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
             texture,
-            new Rect(0.0f, 0.0f, texture.width, texture.height),
+            new Rect(0, 0, texture.width, texture.height),
             new Vector2(0.5f, 0.5f));
-    }
-
-    private Texture2D LoadTexture(string path)
-    {
-        Texture2D texture = null;
-
-        if (!string.IsNullOrEmpty(path))
-        {
-            byte[] bytes = System.IO.File.ReadAllBytes(path);
-            texture = new Texture2D(2, 2);
-            texture.LoadImage(bytes);
-        }
-
-        return texture;
     }
 
     public void ClosePanel()
