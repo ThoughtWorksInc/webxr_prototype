@@ -23,7 +23,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
 
     public void ShowInputPanel(GameObject referenceObj)
     {
-        this.gameObject.SetActive(true);
+        this.gameObject.GetComponentInParent<PanelController>().SetPanelActive(this.gameObject.name);
         overlay = referenceObj;
         title.text = "Edit Image for: " + overlay.name;
 
