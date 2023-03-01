@@ -13,8 +13,7 @@ public class ImageOverlay : MonoBehaviour, IOverlay
     {
         //Should implement image here
         Debug.Log("Data image" + data.userInput);
-        //later we can change to our aws bucket url
-        string uri = "https://www.online-image-editor.com/styles/2019/images/power_girl.png";
+        string uri="https://webxr-poc-data.s3.eu-west-1.amazonaws.com/"+data.userInput;
         string response = "";
         UnityWebRequest webRequest = UnityWebRequest.Get(uri);
 
@@ -44,7 +43,7 @@ public class ImageOverlay : MonoBehaviour, IOverlay
                 new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f)
             );
-            ;
+            
         }
 
         webRequest.Dispose();

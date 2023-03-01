@@ -58,11 +58,11 @@ public class AWSManager : MonoBehaviour
         }
     }
 
-    public string UploadImage(Texture2D image, string filename)
+    public string UploadImage(Texture2D texture, string filename)
     {
         // string contentType = "bytes";
         Debug.Log("filename"+filename);
-        string target = filename+".png";
+        string target = filename;
 
         // Set the URL for the request
         string url = $"https://webxr-poc-data.s3.eu-west-1.amazonaws.com/" + target;
@@ -71,8 +71,8 @@ public class AWSManager : MonoBehaviour
         // string jsonContent = json;
 
         // byte[] imageBytes = System.Text.Encoding.UTF8.GetBytes(image);
-
-        UnityWebRequest request = UnityWebRequest.Put(url, image.GetRawTextureData());
+        byte[] imageBytes=texture.EncodeToPNG();
+        UnityWebRequest request = UnityWebRequest.Put(url, imageBytes);
 
         request.SetRequestHeader("Access-Control-Allow-Origin", "*");
 
