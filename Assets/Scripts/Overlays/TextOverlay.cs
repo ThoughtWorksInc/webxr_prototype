@@ -7,8 +7,9 @@ public class TextOverlay : MonoBehaviour, IOverlay
 {
     public TextMeshProUGUI text;
 
-    public void Setup(OverlayGameObject data)
+    public IEnumerator Setup(OverlayGameObject data)
     {
         text.text = data.userInput;
+        yield return null;
     }
 }

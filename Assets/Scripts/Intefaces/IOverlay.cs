@@ -1,4 +1,8 @@
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+
 interface IOverlay
 {
-    void Setup(OverlayGameObject data);
+    IEnumerator Setup(OverlayGameObject data);
 }
