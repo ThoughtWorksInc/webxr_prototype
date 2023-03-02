@@ -5,25 +5,12 @@ using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
-    public GameObject buttonTemplate;
-
-    private string[] scenes = new string[]
+    public void TrainerSceneButtonClick()
     {
-        "TrainerScene",
-        "TrainingScene"
-        //"SpikeMenu"
-    };
-
-    // Start is called before the first frame update
-    void Start()
+        SceneManager.LoadScene("TrainerScene");
+    }
+    public void TraineeSceneButtonClick()
     {
-        foreach (string scene in scenes)
-        {
-            GameObject g = Instantiate(buttonTemplate, transform);
-            g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = scene;
-            g.GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(scene));
-        }
-
-        Destroy(buttonTemplate);
+        SceneManager.LoadScene("TrainingScene");
     }
 }
