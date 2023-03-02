@@ -69,7 +69,8 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
         }
         #endif
 
-        imagePath = "";
+        imagePath = "Select a file";
+        pathText.text = imagePath;
         overlay = null;
 
         saveButton.interactable = false;
