@@ -66,12 +66,14 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
             // Display the image in the UI image component
             overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             Debug.Log(overlay.GetComponentInChildren<Image>().sprite);
+            overlay.GetComponent<ImageOverlay>().HideDefaultElements();
         }
         #else
             overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
             texture,
             new Rect(0, 0, texture.width, texture.height),
             new Vector2(0.5f, 0.5f));
+            overlay.GetComponent<ImageOverlay>().HideDefaultElements();
         #endif
 
         imagePath = "Select a file";

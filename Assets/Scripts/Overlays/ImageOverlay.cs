@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 public class ImageOverlay : MonoBehaviour, IOverlay
 {
     public Image image;
+    public GameObject icon;
+    public GameObject text;
 
     // public byte[] imagedata;
     public IEnumerator Setup(OverlayGameObject data)
@@ -32,7 +34,6 @@ public class ImageOverlay : MonoBehaviour, IOverlay
         {
             Debug.Log("Image fetch successfully");
             response = webRequest.downloadHandler.text;
-            Debug.Log("Response: " + webRequest.downloadHandler.text);
 
             Texture2D texture = new Texture2D(20, 20);
             texture.LoadImage(webRequest.downloadHandler.data);
@@ -43,9 +44,17 @@ public class ImageOverlay : MonoBehaviour, IOverlay
                 new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f)
             );
+
+            HideDefaultElements();
             
         }
 
         webRequest.Dispose();
+    }
+
+    public void HideDefaultElements()
+    {
+        icon.SetActive(false);
+        text.SetActive(false);
     }
 }

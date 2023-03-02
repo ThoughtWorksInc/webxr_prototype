@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class TrainingScript : MonoBehaviour
 {
@@ -78,6 +79,12 @@ public class TrainingScript : MonoBehaviour
             }
         }
 
-        Destroy(GameObject.Find("Menu"));
+        // set trainee starting posotion
+        Camera.main.transform.position = new Vector3(0, 1, -10);
+        Camera.main.transform.rotation = new Quaternion(0, 0, 0, 0);
+
+        Destroy(GameObject.Find("TrainingPopup"));
+        GameObject canvas = GameObject.Find("Canvas");
+        Destroy(canvas.GetComponent<Image>());
     }
 }
