@@ -2,12 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class ManagerScript : MonoBehaviour
 {
     Camera mainCamera;
+    public GameObject errorPopup;
     public GameObject popUpPanel;
-
+    
     void Start()
     {
         mainCamera = Camera.main;
@@ -37,7 +39,7 @@ public class ManagerScript : MonoBehaviour
                 overlayData.myOverlays.Add(overlayGameObject);
             }
         }
-
+        try{
         string imagePrefab = "Image";
         GameObject imageGameObject = Resources.Load(imagePrefab) as GameObject;
 
@@ -61,6 +63,12 @@ public class ManagerScript : MonoBehaviour
                 overlayData.myOverlays.Add(overlayGameObject);
         
             }
+        }
+        }
+        catch(ArgumentException e){
+            GameObject errorPopupElement =Instantiate(errorPopup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
+            errorPopupElement.GetComponentInChildren<TextMeshProUGUI>().text="Please upload image before saving scene..";
+            return;
         }
 
         string json = JsonUtility.ToJson(overlayData);
