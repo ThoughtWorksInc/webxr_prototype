@@ -34,10 +34,11 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
 
     public void OpenFileExplorer()
     {
-        #if UNITY_EDITOR
+    #if UNITY_EDITOR
             imagePath = EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
-        #else
-            FileUploaderHelper.RequestFile((path) => 
+            saveButton.interactable = true;
+    #else
+        FileUploaderHelper.RequestFile((path) => 
             {
                 if (string.IsNullOrWhiteSpace(path))
                     return;
