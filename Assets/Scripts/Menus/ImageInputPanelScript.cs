@@ -16,7 +16,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
 
     private string imagePath = "";
     private Image image;
-
+    private Texture2D texture;
     void Start()
     {
     }
@@ -67,6 +67,11 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
             overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             Debug.Log(overlay.GetComponentInChildren<Image>().sprite);
         }
+        #else
+            overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
+            texture,
+            new Rect(0, 0, texture.width, texture.height),
+            new Vector2(0.5f, 0.5f));
         #endif
 
         imagePath = "Select a file";
@@ -81,7 +86,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
     IEnumerator UploadImage(string path)
     {
         // This is where the texture will be stored.
-        Texture2D texture;
+        
         // path = path.Substring(path.IndexOf(":") + 1);
         Debug.Log("Path: " + path);
         // using to automatically call Dispose, create a request along the path to the file
@@ -100,10 +105,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
         Debug.Log("Going to apply texture to overlay now");
 
         // Create a sprite from a texture and pass it to the avatar image on the UI
-        overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
-            texture,
-            new Rect(0, 0, texture.width, texture.height),
-            new Vector2(0.5f, 0.5f));
+        
     }
 
     public void ClosePanel()
