@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class OptionButton : MonoBehaviour
 {
-    TextMeshProUGUI text;
     Camera mainCamera;
     int counter;
 
     void Start()
     {   
         mainCamera = Camera.main;
-        text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         counter = 1;
     }
 
     public void InstantiateResource()
     {
-        string overlayName = text.text;
+        string overlayName = this.gameObject.name;
 
         GameObject overlayResource = Resources.Load<GameObject>(overlayName);
         GameObject overlay = Instantiate(overlayResource, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
