@@ -5510,7 +5510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5842283259180231023, guid: 54902587c94fd4de9b41cc34ab0b75f5, type: 3}
       propertyPath: m_LineLimit
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5842283259187560564, guid: 54902587c94fd4de9b41cc34ab0b75f5, type: 3}
       propertyPath: m_Pivot.x
