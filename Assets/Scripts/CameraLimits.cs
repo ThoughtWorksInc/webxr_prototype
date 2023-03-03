@@ -20,10 +20,10 @@ public class CameraLimits : MonoBehaviour
         }
     }
 
-    public void CameraStart()
+    public void CameraStart(PlayerPosition playerPosition)
     {
-        Camera.main.transform.position = new Vector3(0, 1, -10);
-        Camera.main.transform.rotation = new Quaternion(0, 0, 0, 0);
+        Camera.main.transform.position = playerPosition.position;
+        Camera.main.transform.rotation = playerPosition.rotation;
         start = true;
     }
 

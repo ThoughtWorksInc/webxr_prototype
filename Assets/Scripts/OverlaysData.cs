@@ -6,7 +6,10 @@ using System.Collections;
 public class OverlaysData
 {
     public List<OverlayGameObject> myOverlays;
-    public OverlaysData(){
+    public PlayerPosition playerPosition;
+    public OverlaysData()
+    {
         myOverlays = new List<OverlayGameObject>();
+        playerPosition = new PlayerPosition();
     }
 }

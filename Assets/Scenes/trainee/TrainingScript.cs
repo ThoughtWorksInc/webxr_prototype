@@ -80,7 +80,7 @@ public class TrainingScript : MonoBehaviour
         }
 
         // set trainee starting posotion
-        Camera.main.GetComponent<CameraLimits>().CameraStart();
+        Camera.main.GetComponent<CameraLimits>().CameraStart(myOverlaysData.playerPosition);
 
         Destroy(GameObject.Find("TrainingPopup"));
         GameObject canvas = GameObject.Find("Canvas");

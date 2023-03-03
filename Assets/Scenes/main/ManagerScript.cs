@@ -64,6 +64,11 @@ public class ManagerScript : MonoBehaviour
         
             }
         }
+
+        // also save player (camera) position
+        overlayData.playerPosition.position = mainCamera.transform.position;
+        overlayData.playerPosition.rotation = mainCamera.transform.rotation;
+
         }
         catch(ArgumentException e){
             GameObject errorPopupElement =Instantiate(errorPopup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
