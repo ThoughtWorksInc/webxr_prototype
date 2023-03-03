@@ -80,8 +80,7 @@ public class TrainingScript : MonoBehaviour
         }
 
         // set trainee starting posotion
-        Camera.main.transform.position = new Vector3(0, 1, -10);
-        Camera.main.transform.rotation = new Quaternion(0, 0, 0, 0);
+        Camera.main.GetComponent<CameraLimits>().CameraStart();
 
         Destroy(GameObject.Find("TrainingPopup"));
         GameObject canvas = GameObject.Find("Canvas");
