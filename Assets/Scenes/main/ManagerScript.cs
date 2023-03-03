@@ -71,6 +71,7 @@ public class ManagerScript : MonoBehaviour
 
         }
         catch(ArgumentException e){
+            Debug.Log("Error occired: " + e);
             GameObject errorPopupElement =Instantiate(errorPopup, mainCamera.transform.position + (mainCamera.transform.forward * 3), mainCamera.transform.rotation);
             errorPopupElement.GetComponentInChildren<TextMeshProUGUI>().text="Please upload image before saving scene..";
             return;

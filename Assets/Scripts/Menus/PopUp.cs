@@ -14,4 +14,9 @@ public class PopUp : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
+
+    public void CopyIdButtonClick()
+    {
+        CopyToClipboardHelper.Copy(text.text);
+    }
 }
