@@ -14,7 +14,7 @@ public class TextInputPanelScript : MonoBehaviour, IInputPanel
         this.gameObject.GetComponentInParent<PanelController>().SetPanelActive(this.gameObject.name);
 
         overlay = referenceObj;
-        title.text = "Edit Text for: " + overlay.name;
+        title.text =  "Edit " + overlay.name;
         inputText.text = overlay.GetComponentInChildren<TextMeshProUGUI>().text;
     }
 

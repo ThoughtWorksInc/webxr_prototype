@@ -25,7 +25,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
     {
         this.gameObject.GetComponentInParent<PanelController>().SetPanelActive(this.gameObject.name);
         overlay = referenceObj;
-        title.text = "Edit Image for: " + overlay.name;
+        title.text = "Edit " + overlay.name;
 
         #if UNITY_EDITOR
             imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
