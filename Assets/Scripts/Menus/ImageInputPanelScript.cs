@@ -17,68 +17,80 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
     private string imagePath = "";
     private Image image;
     private Texture2D texture;
-    void Start()
-    {
-    }
+
+    void Start() { }
 
     public void ShowInputPanel(GameObject referenceObj)
     {
-        this.gameObject.GetComponentInParent<PanelController>().SetPanelActive(this.gameObject.name);
+        this.gameObject
+            .GetComponentInParent<PanelController>()
+            .SetPanelActive(this.gameObject.name);
         overlay = referenceObj;
         title.text = "Edit " + overlay.name;
 
-        #if UNITY_EDITOR
-            imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
-        #endif
+        // #if UNITY_EDITOR
+        //     imagePath = AssetDatabase.GetAssetPath(overlay.GetComponentInChildren<Image>().sprite);
+        // #endif
+        imagePath = overlay.GetComponent<ImagepathScript>().imagePath;
+        pathText.text = overlay.GetComponent<ImagepathScript>().imagePath;
     }
 
     public void OpenFileExplorer()
     {
-    #if UNITY_EDITOR
-            imagePath = EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
-            saveButton.interactable = true;
-    #else
-        FileUploaderHelper.RequestFile((path) => 
+#if UNITY_EDITOR
+        imagePath = EditorUtility.OpenFilePanel("Select image", "", "png,jpg,jpeg");
+        saveButton.interactable = true;
+        pathText.text = imagePath;
+#else
+        FileUploaderHelper.RequestFile(
+            (path) =>
             {
+                imagePath = path;
+                pathText.text = imagePath;
                 if (string.IsNullOrWhiteSpace(path))
                     return;
 
-                StartCoroutine(UploadImage(path));  
-                imagePath = path;
-                pathText.text = imagePath;
+                StartCoroutine(UploadImage(path));
                 saveButton.interactable = true;
-            });
-        #endif
-
-        pathText.text = imagePath;
+            }
+        );
+#endif
     }
 
     public void SaveImageInput()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (imagePath.Length != 0)
         {
+            overlay.GetComponent<ImagepathScript>().imagePath = imagePath;
             // Load the image from file
-            byte[] imageData = File.ReadAllBytes(imagePath);
+            byte[] imageData = File.ReadAllBytes(overlay.GetComponent<ImagepathScript>().imagePath);
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(imageData);
             Debug.Log(overlay.GetComponentInChildren<Image>().sprite);
             // Display the image in the UI image component
-            overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
+                texture,
+                new Rect(0, 0, texture.width, texture.height),
+                new Vector2(0.5f, 0.5f)
+            );
             Debug.Log(overlay.GetComponentInChildren<Image>().sprite);
+
             overlay.GetComponent<ImageOverlay>().HideDefaultElements();
         }
-        #else
-            overlay.GetComponentInChildren<Image>().sprite = Sprite.Create(
+#else
+        overlay
+            .GetComponentInChildren<Image>()
+            .sprite = Sprite.Create(
             texture,
             new Rect(0, 0, texture.width, texture.height),
-            new Vector2(0.5f, 0.5f));
-            overlay.GetComponent<ImageOverlay>().HideDefaultElements();
-        #endif
+            new Vector2(0.5f, 0.5f)
+        );
+        overlay.GetComponent<ImagepathScript>().imagePath = imagePath;
+        overlay.GetComponent<ImageOverlay>().HideDefaultElements();
+#endif
 
-        imagePath = "Select a file";
-        pathText.text = imagePath;
-        overlay = null;
+        pathText.text = overlay.GetComponent<ImagepathScript>().imagePath;
 
         saveButton.interactable = false;
         this.gameObject.SetActive(false);
@@ -88,7 +100,7 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
     IEnumerator UploadImage(string path)
     {
         // This is where the texture will be stored.
-        
+
         // path = path.Substring(path.IndexOf(":") + 1);
         Debug.Log("Path: " + path);
         // using to automatically call Dispose, create a request along the path to the file
@@ -107,7 +119,6 @@ public class ImageInputPanelScript : MonoBehaviour, IInputPanel
         Debug.Log("Going to apply texture to overlay now");
 
         // Create a sprite from a texture and pass it to the avatar image on the UI
-        
     }
 
     public void ClosePanel()
