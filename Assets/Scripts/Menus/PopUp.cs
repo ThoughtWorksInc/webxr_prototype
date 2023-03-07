@@ -17,6 +17,10 @@ public class PopUp : MonoBehaviour
 
     public void CopyIdButtonClick()
     {
+#if UNITY_EDITOR
+        GUIUtility.systemCopyBuffer = text.text;
+#else
         CopyToClipboardHelper.Copy(text.text);
+#endif
     }
 }

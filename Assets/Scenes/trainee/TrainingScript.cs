@@ -11,6 +11,7 @@ public class TrainingScript : MonoBehaviour
     private string data = null;
     public List<OverlayGameObject> myOverlays;
     public List<SceneItem> SceneItems = new();
+    public TMP_InputField inputField;
 
     void Start() { }
 
@@ -85,5 +86,14 @@ public class TrainingScript : MonoBehaviour
         Destroy(GameObject.Find("TrainingPopup"));
         GameObject canvas = GameObject.Find("Canvas");
         Destroy(canvas.GetComponent<Image>());
+    }
+
+    public void PasteIdButtonClick()
+    {
+#if UNITY_EDITOR
+        inputField.text = GUIUtility.systemCopyBuffer;
+#else
+        CopyToClipboardHelper.Paste((text) => inputField.text = text);
+#endif
     }
 }
