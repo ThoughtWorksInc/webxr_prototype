@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to bp Training simulator
+  m_text: Welcome to Training simulator
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe88b083d4d4f4a238b01c65ebea752e, type: 2}
   m_sharedMaterial: {fileID: 7865020122846334522, guid: fe88b083d4d4f4a238b01c65ebea752e, type: 2}
